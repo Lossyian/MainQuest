@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -7,51 +8,55 @@ using UnityEngine;
 public class UiManager : MonoBehaviour
 {
     public GameObject GameOverUI;
-    public GameObject GmaeClearUI;
-    public TMP_Text coinScoer;
-    private int getCoin;
+    public GameObject GameClearUI;
+    public TextMeshProUGUI coinScoer;
+
+
 
 
     public GameManager manager;
 
+
+   
     public void nonSee()
     {
         GameOverUI?.SetActive(false);
-        GmaeClearUI?.SetActive(false);
+        GameClearUI?.SetActive(false);
     }
     public void NowScoer()
     {
-        //현재 점수 텍스트 UI 수정.
-        //coinScoer = $"Coin:{getCoin}";
+        coinScoer.text =$"Coin : {manager.getCoin} / {manager.needCoin}";
+        if (manager.getCoin >= manager.needCoin)
+        {
+            coinScoer.text = "Coin : Complete";
+        }
     }
 
     public void GameOver()
     {
-        // 게임 오버 UI Set true 
 
-        //GameOverUI?.SetActive(false);
-        OverFadeIN();
+        GameOverUI?.SetActive(true);
+        StartCoroutine(OverFadeIN());
     }
 
 
     public void GameClear()
     {
-        Debug.Log("게임 끝났다요");
 
-        // 게임 클리어 UI Set true 
-        GmaeClearUI?.SetActive(true);
-       
+        GameClearUI?.SetActive(true);
+        StartCoroutine(ClearFadeIn());
     }
 
+    
 
     IEnumerator ClearFadeIn()
     {
         float showTime = 0f;
-        float maxTime =0.5f;
+        float maxTime = 0.5f;
 
         while (showTime <= maxTime)
         {
-            GmaeClearUI.GetComponent<CanvasRenderer>().SetAlpha(Mathf.Lerp(1f, 0f, showTime / maxTime));
+            GameClearUI.GetComponent<CanvasRenderer>().SetAlpha(Mathf.Lerp(0f, 1f, showTime / maxTime));
             showTime += Time.deltaTime;
             yield return null;
         }
@@ -64,11 +69,14 @@ public class UiManager : MonoBehaviour
 
         while (showTime <= maxTime)
         {
-            GameOverUI.GetComponent<CanvasRenderer>().SetAlpha(Mathf.Lerp(1f, 0f, showTime / maxTime));
+            GameOverUI.GetComponent<CanvasRenderer>().SetAlpha(Mathf.Lerp(0f, 1f, showTime / maxTime));
             showTime += Time.deltaTime;
             yield return null;
         }
         yield break;
     }
+
+    
+
 
 }

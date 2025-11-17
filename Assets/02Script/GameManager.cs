@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] int needCoin=30;
+    public int needCoin=30;
     [SerializeField] float Timeout= 60.0f;
-    [SerializeField] UiManager uiManager;
+    public UiManager uiManager;
+    public CoinSpawner coinSpawner;
+    public PoolManager pools;
+    public Player player;
 
     public int getCoin = 0;
     bool gameOver = false;
@@ -14,7 +17,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        uiManager = FindObjectOfType<UiManager>();
+        coinSpawner. SpawnCoin();
+        uiManager.NowScoer();
     }
     void Start()
     {
@@ -34,7 +38,6 @@ public class GameManager : MonoBehaviour
     void GameOver()
     {
         gameOver = true;
-        Restarting();
         uiManager.GameOver();
         
     }
@@ -62,9 +65,12 @@ public class GameManager : MonoBehaviour
         if (gameClear || gameOver)
         {
          Debug.Log("다시 시작한다요");
-         //모든 오브젝트를 오브젝트 풀로 되돌려주기
-         // 플레이어 캐릭터 스폰위치로 스폰.
-         uiManager.nonSee();
+            pools.Unset(0);
+            player.ResetPosition();
+            coinSpawner.SpawnCoin();
+            uiManager.nonSee();
+            needCoin = 0;
+            uiManager.NowScoer();
         }
         
     }

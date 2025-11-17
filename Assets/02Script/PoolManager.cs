@@ -4,15 +4,55 @@ using UnityEngine;
 
 public class PoolManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public GameObject[] prefabs;
+    List<GameObject>[] pools;
+
+    private void Awake()
     {
-        
+        //프레펩 배열의 길이만큼 풀 배열 초기화
+        pools = new List <GameObject>[prefabs.Length];
+        //리스트 풀의 길이만큼 풀 안에 새로운 게임 오브젝트가 담긴 리스트 넣기.
+        for(int i = 0;i < pools.Length; i++)
+        {
+            pools[i] = new List <GameObject> ();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public GameObject Get(int index)
     {
+        GameObject select = null;
+
+        foreach (GameObject item in pools[index])
+        {
+            if (!item.activeSelf)
+            {
+                select = item;
+                select.SetActive(true);
+                break;
+            }
+        }
+        if (!select)
+        {
+            select = Instantiate(prefabs[index], transform);
+            pools[index].Add (select);
+        }
+        return select;
+
+    }
+
+    public void Unset(int index)
+    {
+        
+        foreach (GameObject item in pools[index])
+        {
+            if (item.activeSelf)
+            {
+                
+                item.SetActive(false);
+                
+            }
+        }
         
     }
 }

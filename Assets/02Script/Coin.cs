@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-     GameManager manager;
-     UiManager uiManager;
+    [SerializeField] GameManager manager;
+    [SerializeField] UiManager uiManager;
     [SerializeField] LayerMask PlayerLayer;
 
     private void Awake()
@@ -18,7 +18,7 @@ public class Coin : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            Debug.Log("´ê¾Ò´Ù¿ä");
+            
             manager.getCoin++;
             uiManager.NowScoer();
             manager.MaxCoin();

@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float radius = 5.0f;
     [SerializeField] private float rotatespeed = 10.0f;
     [SerializeField] private float smoothInputspeed = 10.0f;
+    [SerializeField] public GameObject spawnPoint;
 
     
     CharacterController cc;
@@ -42,26 +43,41 @@ public class Player : MonoBehaviour
             Quaternion targetrot = Quaternion.LookRotation(smoothinput);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetrot, rotatespeed * Time.deltaTime);
         }
-    
 
+        animator.SetBool("IsGrounded", cc.isGrounded);
         if (cc.isGrounded)
         {
-            
+            dir.y = -1f;
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                animator.SetTrigger("Jump");
                 dir.y = playerJump;
             }
             
         }
+        else
+        {
+            dir.y += Physics.gravity.y * Time.deltaTime;
+        }
 
-        Vector3 move = inputDir * playerSpeed;
+        
+
+
+        Vector3 move = (inputDir * playerSpeed) + new Vector3 (0f,dir.y,0f);
         cc.Move(move* Time.deltaTime);
 
         float speedvalue = inputDir.magnitude;
         animator.SetFloat("Speed", speedvalue);
+       
 
-        
+    }
 
+    public void ResetPosition()
+    {
+        Vector3 spawnposition = spawnPoint.transform.position;
+        cc.enabled = false;
+        transform.position = spawnposition;
+        cc.enabled = true;
     }
 
     void Itmepulling()
