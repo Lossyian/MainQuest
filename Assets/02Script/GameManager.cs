@@ -6,7 +6,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public int needCoin=30;
-    public float Timeout= 120.0f;
+    public float Timeout= 180.0f;
     public UiManager uiManager;
     public CoinSpawner coinSpawner;
     public PoolManager pools;
@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
         
         if (gameClear || gameOver)
         {
-            Timeout = 120f;
+            Timeout = 180f;
             pools.Unset(0);
             pools.Unset(1);
             player.ResetPosition();

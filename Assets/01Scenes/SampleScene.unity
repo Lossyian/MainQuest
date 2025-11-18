@@ -497,7 +497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   needCoin: 30
-  Timeout: 120
+  Timeout: 180
   uiManager: {fileID: 825450424}
   coinSpawner: {fileID: 2042171101}
   pools: {fileID: 1062948759}
