@@ -12,16 +12,15 @@ public class GameManager : MonoBehaviour
     public Player player;
 
     public int getCoin = 0;
-    bool gameOver = false;
-    bool gameClear= false;
+    public bool gameOver = false;
+    public bool gameClear= false;
 
-    private void Awake()
-    {
-        coinSpawner. SpawnCoin();
-        uiManager.NowScoer();
-    }
+    
     void Start()
     {
+        coinSpawner.SpawnCoin();
+        coinSpawner.splitBoom();
+        uiManager.NowScoer();
         uiManager.nonSee();
     }
 
@@ -35,7 +34,7 @@ public class GameManager : MonoBehaviour
 
     
 
-    void GameOver()
+    public void GameOver()
     {
         gameOver = true;
         uiManager.GameOver();
@@ -58,19 +57,32 @@ public class GameManager : MonoBehaviour
         {
             Restarting();
         }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            if (gameClear || gameOver)
+            {
+                Debug.Log("게임끈다요");
+                Application.Quit();
+            }
+        }
     }
     void Restarting()
     {
         
         if (gameClear || gameOver)
         {
-         Debug.Log("다시 시작한다요");
+         
             pools.Unset(0);
+            pools.Unset(1);
             player.ResetPosition();
             coinSpawner.SpawnCoin();
+            coinSpawner.splitBoom();
             uiManager.nonSee();
-            needCoin = 0;
+            getCoin = 0;
+            gameOver = false;
+            gameClear = false;
             uiManager.NowScoer();
+
         }
         
     }

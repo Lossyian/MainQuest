@@ -10,10 +10,6 @@ public class UiManager : MonoBehaviour
     public GameObject GameOverUI;
     public GameObject GameClearUI;
     public TextMeshProUGUI coinScoer;
-
-
-
-
     public GameManager manager;
 
 
@@ -37,6 +33,7 @@ public class UiManager : MonoBehaviour
 
         GameOverUI?.SetActive(true);
         StartCoroutine(OverFadeIN());
+       
     }
 
 
@@ -45,6 +42,7 @@ public class UiManager : MonoBehaviour
 
         GameClearUI?.SetActive(true);
         StartCoroutine(ClearFadeIn());
+        
     }
 
     
@@ -60,6 +58,7 @@ public class UiManager : MonoBehaviour
             showTime += Time.deltaTime;
             yield return null;
         }
+        
         yield break;
     }
     IEnumerator OverFadeIN()
@@ -73,6 +72,7 @@ public class UiManager : MonoBehaviour
             showTime += Time.deltaTime;
             yield return null;
         }
+        
         yield break;
     }
 
