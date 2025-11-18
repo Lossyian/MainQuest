@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Threading;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -10,10 +11,24 @@ public class UiManager : MonoBehaviour
     public GameObject GameOverUI;
     public GameObject GameClearUI;
     public TextMeshProUGUI coinScoer;
+    public TextMeshProUGUI nowTime;
     public GameManager manager;
 
+    private void Update()
+    {
+        Timer();
+    }
+    void Timer()
+    {
+        if (manager.Timeout > 0)
+        {
+            manager.Timeout -= Time.deltaTime;
 
-   
+            nowTime.text = "Time :" + Mathf.Round(manager.Timeout);
+        }
+        manager.Timeouts();
+    }
+
     public void nonSee()
     {
         GameOverUI?.SetActive(false);

@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public int needCoin=30;
-    [SerializeField] float Timeout= 60.0f;
+    public float Timeout= 120.0f;
     public UiManager uiManager;
     public CoinSpawner coinSpawner;
     public PoolManager pools;
@@ -32,6 +33,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void Timeouts()
+    {
+        if (Timeout <= 0) 
+        {
+            GameOver();
+        }
+    }
     
 
     public void GameOver()
@@ -61,7 +69,7 @@ public class GameManager : MonoBehaviour
         {
             if (gameClear || gameOver)
             {
-                Debug.Log("°ÔÀÓ²ö´Ù¿ä");
+                
                 Application.Quit();
             }
         }
@@ -71,7 +79,7 @@ public class GameManager : MonoBehaviour
         
         if (gameClear || gameOver)
         {
-         
+            Timeout = 120f;
             pools.Unset(0);
             pools.Unset(1);
             player.ResetPosition();
@@ -86,4 +94,6 @@ public class GameManager : MonoBehaviour
         }
         
     }
+
+    
 }
